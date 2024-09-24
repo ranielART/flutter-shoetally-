@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "889022882849",
+    "project_id": "commerce-back",
+    "storage_bucket": "commerce-back.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889022882849:android:9e79d036e2d34b6f2e2f60",
+        "android_client_info": {
+          "package_name": "ph.projectthing.commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcQ5XRDIwDY255adonPSJM2TM5OodDiUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
