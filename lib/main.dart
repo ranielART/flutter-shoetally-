@@ -1,28 +1,15 @@
+import 'package:commerce_mobile/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'screens/splash_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(ShoeTallyApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class ShoeTallyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
+    return MaterialApp(
+      home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
