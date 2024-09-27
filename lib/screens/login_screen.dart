@@ -65,23 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Password',
                           controllerTextField: passwordTextField),
                       const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Spacer(),
-                          InkWell(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Text(
-                              'Forgot Password?',
-                              style: GoogleFonts.inter(
-                                fontSize: 15,
-                                color: const Color(0xFFA259FF),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -114,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 35),
                 Center(
                   child: Text(
-                    'Or sign in with',
+                    "Don't have an account?",
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       color: const Color.fromARGB(255, 140, 140, 140),
@@ -123,11 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(40.0),
+                  padding: const EdgeInsets.all(35.0),
                   child: Center(
                     child: ElevatedButton.icon(
                       onPressed: () {
                         // Google sign-in logic here
+
+                        Navigator.pushNamed(context, '/signup');
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.purple,
@@ -141,15 +126,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 1.5),
                         ),
                       ),
-                      icon: Image.asset(
-                        'assets/images/google_logo_colored.png',
-                        height: 45,
-                        width: 45,
-                      ),
                       label: Text(
-                        'Continue with Google',
+                        'SIGN UP',
                         style: GoogleFonts.inter(
-                          fontSize: 16,
+                          fontSize: 15,
                           letterSpacing: -0.5,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromARGB(255, 99, 99, 99),
