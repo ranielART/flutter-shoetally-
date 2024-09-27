@@ -206,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: Text(
                     'Continue with Google',
                     style: GoogleFonts.inter(
-                      fontSize: 20,
+                      fontSize: 18,
                       letterSpacing: -0.5,
                       fontWeight: FontWeight.w500,
                       color: const Color.fromARGB(255, 99, 99, 99),
