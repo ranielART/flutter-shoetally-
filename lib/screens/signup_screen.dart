@@ -87,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       child: Text(
-                        'LOGIN',
+                        'SIGNUP',
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           letterSpacing: -0.2,
