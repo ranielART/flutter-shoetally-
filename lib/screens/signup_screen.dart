@@ -3,27 +3,26 @@ import 'package:commerce_mobile/compontents/passwordfields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({
-    super.key,
-  });
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController nameTextField = TextEditingController();
   TextEditingController emailTextField = TextEditingController();
   TextEditingController passwordTextField = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              color: Colors.white,
               padding: const EdgeInsetsDirectional.symmetric(
                   horizontal: 35, vertical: 35),
               child: Column(
@@ -31,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Log in',
+                    'Sign Up',
                     style: GoogleFonts.inter(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
@@ -46,8 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InputFields(
+                            label: 'Name',
+                            hintText: 'Write your name',
+                            controllerTextField: nameTextField),
+                        const SizedBox(height: 35),
+                        InputFields(
                             label: 'Email',
-                            hintText: 'Email',
+                            hintText: 'johndoe@gmail.com',
                             controllerTextField: emailTextField),
                         const SizedBox(height: 35),
                         Text(
@@ -71,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/dashboard');
+                        // Handle login logic here
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -93,50 +97,38 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 35),
+                  const SizedBox(height: 50),
                   Center(
-                    child: Text(
-                      "Don't have an account?",
-                      style: GoogleFonts.inter(
-                        fontSize: 15,
-                        color: const Color.fromARGB(255, 140, 140, 140),
-                        letterSpacing: -0.5,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              color: const Color.fromARGB(255, 140, 140, 140),
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/login');
+                              setState(() {});
+                            },
+                            child: Text(
+                              'Log in',
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                color: const Color(0xFFA259FF),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(35.0),
-                    child: Center(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          // Google sign-in logic here
-
-                          Navigator.pushNamed(context, '/signup');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.purple,
-                          backgroundColor: Colors.white,
-                          minimumSize: const Size.fromHeight(60),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: const BorderSide(
-                                color: Color.fromARGB(255, 228, 228, 228),
-                                width: 1.5),
-                          ),
-                        ),
-                        label: Text(
-                          'SIGN UP',
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            letterSpacing: -0.5,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 99, 99, 99),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
