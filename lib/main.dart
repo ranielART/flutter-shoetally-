@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/screens/dashboard.dart';
 import 'package:commerce_mobile/screens/login_screen.dart';
 import 'package:commerce_mobile/screens/signup_screen.dart';
 import 'package:commerce_mobile/screens/splash_screen.dart';
@@ -14,6 +15,7 @@ class ShoeTallyApp extends StatelessWidget {
         routes: {
           '/login': (context) => const LoginScreen(),
           '/signup': (context) => const SignupScreen(),
+          '/dashboard': (context) => Dashboard(),
         });
   }
 }
