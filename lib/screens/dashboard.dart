@@ -1,3 +1,7 @@
+
+import 'package:commerce_mobile/compontents/app_drawer.dart';
+import 'package:commerce_mobile/compontents/transaction_item.dart';
+import 'package:commerce_mobile/compontents/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +25,8 @@ class _DashboardState extends State<Dashboard> {
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'title': 'Kyle Sex',
+
+      'title': 'Kyle Dellatan',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
@@ -37,6 +42,8 @@ class _DashboardState extends State<Dashboard> {
     },
   ];
 
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -45,6 +52,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Assign the key to the Scaffold
       appBar: AppBar(
         backgroundColor: const Color(0xFFA259FF),
         foregroundColor: Colors.white,
@@ -59,12 +67,17 @@ class _DashboardState extends State<Dashboard> {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            // Open drawer
+
+            _scaffoldKey.currentState
+                ?.openDrawer(); // Open the drawer using the GlobalKey
           },
         ),
       ),
+      drawer: const AppDrawer(),
+
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+        padding: const EdgeInsets.fromLTRB(35, 35, 35, 5),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -94,15 +107,17 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 8),
             // Transactions List
             Expanded(
-              child: ListView(
-                children: [
-                  for (var i = 0; i < 3 && i < _transactions.length; i++)
-                    _transactionItem(
-                      _transactions[i]['title']!,
-                      _transactions[i]['price']!,
-                      _transactions[i]['dateTime']!,
-                    ),
-                ],
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _transactions.length > 3 ? 3 : _transactions.length,
+                itemBuilder: (context, index) {
+
+                  return TransactionItemComponent.transactionItem(
+                    _transactions[index]['title']!,
+                    _transactions[index]['price']!,
+                    _transactions[index]['dateTime']!,
+                  );
+                },
               ),
             ),
             // View All Transactions Button
@@ -223,15 +238,16 @@ class _DashboardState extends State<Dashboard> {
             style: GoogleFonts.inter(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 98, 54, 155),
             ),
           ),
-          subtitle: Text(dateTime, style: GoogleFonts.inter(fontSize: 14)),
+          subtitle: Text(dateTime, style: GoogleFonts.inter(fontSize: 11)),
           trailing: Text(
             "$price / Unit",
             style: GoogleFonts.inter(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFFA259FF),
+              color: const Color.fromARGB(255, 98, 54, 155),
             ),
           ),
         ),
@@ -242,4 +258,5 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
+
 }
