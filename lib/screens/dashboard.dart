@@ -1,4 +1,6 @@
 import 'package:commerce_mobile/compontents/app_drawer.dart';
+import 'package:commerce_mobile/compontents/appbar.dart';
+import 'package:commerce_mobile/compontents/navbar.dart';
 import 'package:commerce_mobile/compontents/transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,35 +13,34 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final List<Map<String, String>> _transactions = [
+  final List<Map<String, String>> _transactionsSample = [
     {
       'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
       'title': 'Kyle Dellatan',
-      'price': '₱ 25,000.00',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
+      'title': 'Mark Anderson',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
+      'title': 'Kyle Dellatan',
+      'price': '25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+      'title': 'Kyle Dellatan',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
   ];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -48,26 +49,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Assign the key to the Scaffold
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFA259FF),
-        foregroundColor: Colors.white,
-        title: Text(
-          "Dashboard",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            letterSpacing: -0.5,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _scaffoldKey.currentState
-                ?.openDrawer(); // Open the drawer using the GlobalKey
-          },
-        ),
-      ),
+      appBar:
+          const CustomAppBar(title: "Dashboard"), // No scaffoldKey here anymore
       drawer: const AppDrawer(),
 
       body: Padding(
@@ -103,12 +86,14 @@ class _DashboardState extends State<Dashboard> {
             Expanded(
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: _transactions.length > 3 ? 3 : _transactions.length,
+                itemCount: _transactionsSample.length > 3
+                    ? 3
+                    : _transactionsSample.length,
                 itemBuilder: (context, index) {
                   return TransactionItemComponent.transactionItem(
-                    _transactions[index]['title']!,
-                    _transactions[index]['price']!,
-                    _transactions[index]['dateTime']!,
+                    _transactionsSample[index]['title']!,
+                    _transactionsSample[index]['price']!,
+                    _transactionsSample[index]['dateTime']!,
                   );
                 },
               ),
@@ -116,7 +101,9 @@ class _DashboardState extends State<Dashboard> {
             // View All Transactions Button
             Center(
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Add navigation or functionality here
+                },
                 child: Text(
                   "View All Transactions",
                   style: GoogleFonts.inter(
@@ -131,17 +118,12 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFFA259FF),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        onTap: (index) {
+          // Handle the tap based on the index
+          if (index == 0) {}
+        },
       ),
     );
   }

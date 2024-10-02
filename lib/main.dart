@@ -11,16 +11,14 @@ class ShoeTallyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: SplashScreen(),
-        debugShowCheckedModeBanner: false,
-        routes: {
-          '/login': (context) => const LoginScreen(),
-          '/signup': (context) => const SignupScreen(),
-          '/dashboard': (context) => Dashboard(),
-          '/transaction_history': (context) => TransactionHistory(),
-        });
+      home: SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/dashboard': (context) => Dashboard(),
+        '/transaction_history': (context) => TransactionHistory(),
+      },
+    );
   }
 }
-
-
-//sample comment 

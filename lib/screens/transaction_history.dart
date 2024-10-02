@@ -1,4 +1,6 @@
 import 'package:commerce_mobile/compontents/app_drawer.dart';
+import 'package:commerce_mobile/compontents/appbar.dart';
+import 'package:commerce_mobile/compontents/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +18,21 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     },
     {
       'title': 'Kyle Dellatan',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+      'title': 'Century Tuna Ila Bernard',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
@@ -57,30 +74,11 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     });
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Assign the key to the Scaffold
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFA259FF),
-        foregroundColor: Colors.white,
-        title: Text(
-          "Transaction History",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            letterSpacing: -0.5,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _scaffoldKey.currentState
-                ?.openDrawer(); // Open the drawer using the GlobalKey
-          },
-        ),
-      ),
+      appBar: const CustomAppBar(
+          title: "Transaction History"), // No scaffoldKey here anymore
       drawer: const AppDrawer(),
       body: Column(
         children: [
@@ -157,22 +155,12 @@ class _TransactionHistoryState extends State<TransactionHistory> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        selectedItemColor: const Color(0xFFA259FF),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        onTap: (index) {
+          // Handle the tap based on the index
+          if (index == 0) {}
+        },
       ),
     );
   }
