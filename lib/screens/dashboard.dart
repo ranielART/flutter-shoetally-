@@ -1,3 +1,4 @@
+
 import 'package:commerce_mobile/compontents/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,7 @@ class _DashboardState extends State<Dashboard> {
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
+
       'title': 'Kyle Dellatan',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
@@ -38,8 +40,8 @@ class _DashboardState extends State<Dashboard> {
     },
   ];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -101,6 +103,7 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 8),
             // Transactions List
             Expanded(
+
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: _transactions.length > 3 ? 3 : _transactions.length,
