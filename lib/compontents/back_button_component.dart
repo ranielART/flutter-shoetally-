@@ -8,16 +8,17 @@ class BackButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? () => Navigator.pop(context), // Default action: pop the screen
+      onTap: onTap ??
+          () => Navigator.pop(context), // Default action: pop the screen
       child: const Row(
         children: [
-          Icon(Icons.arrow_back, color: Colors.black),
-          SizedBox(width: 8.0),
+          Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+          SizedBox(width: 2.0),
           Text(
             'Back',
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.black,
+              color: Color(0xFFA259FF),
             ),
           ),
         ],
