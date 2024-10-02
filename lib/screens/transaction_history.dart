@@ -1,8 +1,9 @@
 import 'package:commerce_mobile/compontents/app_drawer.dart';
 import 'package:commerce_mobile/compontents/appbar.dart';
 import 'package:commerce_mobile/compontents/navbar.dart';
+import 'package:commerce_mobile/compontents/search_field_component.dart';
+import 'package:commerce_mobile/compontents/transaction_item.dart'; // Import the new transaction item component
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TransactionHistory extends StatefulWidget {
   @override
@@ -13,37 +14,17 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   final List<Map<String, String>> _transactions = [
     {
       'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
       'title': 'Kyle Dellatan',
-      'price': '₱ 25,000.00',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
       'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
+      'price': '25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
   ];
@@ -54,16 +35,14 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   @override
   void initState() {
     super.initState();
-    _filteredTransactions =
-        _transactions; // Initialize with full transaction list
+    _filteredTransactions = _transactions;
   }
 
   void _filterTransactions(String searchText) {
     setState(() {
       _searchText = searchText;
       if (_searchText.isEmpty) {
-        _filteredTransactions =
-            _transactions; // Reset to full list if search is empty
+        _filteredTransactions = _transactions;
       } else {
         _filteredTransactions = _transactions
             .where((transaction) => transaction['title']!
@@ -77,32 +56,19 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-          title: "Transaction History"), // No scaffoldKey here anymore
+      appBar: const CustomAppBar(title: "Transaction History"),
       drawer: const AppDrawer(),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              onChanged: (value) => _filterTransactions(value),
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey.shade200,
-              ),
-            ),
+          SearchFieldComponent(
+            onChanged: (value) => _filterTransactions(value),
           ),
           Expanded(
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: _filteredTransactions.length,
               itemBuilder: (context, index) {
+                final transaction = _filteredTransactions[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: 16.0),
@@ -118,35 +84,10 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                            _filteredTransactions[index]['title']!,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 98, 54, 155),
-                            ),
-                          ),
-                          subtitle: Text(
-                            _filteredTransactions[index]['dateTime']!,
-                            style: GoogleFonts.inter(fontSize: 11),
-                          ),
-                          trailing: Text(
-                            "${_filteredTransactions[index]['price']} / Unit",
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 98, 54, 155),
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey.shade300,
-                          thickness: 1,
-                        ),
-                      ],
+                    child: TransactionItemComponent.transactionItem(
+                      transaction['title']!,
+                      transaction['price']!,
+                      transaction['dateTime']!,
                     ),
                   ),
                 );
@@ -155,12 +96,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
+      bottomNavigationBar: const CustomBottomNavigationBar(
         currentIndex: 0,
-        onTap: (index) {
-          // Handle the tap based on the index
-          if (index == 0) {}
-        },
       ),
     );
   }

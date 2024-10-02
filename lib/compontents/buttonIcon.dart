@@ -12,25 +12,30 @@ class IconButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
+    return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: Colors.purple,
+        backgroundColor: const Color(0xFFA259FF),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 6.0),
       ),
-      icon: const Icon(
-        Icons.add,
-        color: Colors.white,
-      ),
-      label: Text(
-        buttonText,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16.0,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            buttonText,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+            ),
+          ),
+          const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ],
       ),
     );
   }
