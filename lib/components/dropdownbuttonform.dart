@@ -20,7 +20,7 @@ class DropdownField extends StatefulWidget {
 }
 
 class _DropdownFieldState extends State<DropdownField> {
-  String? _currentValue; // Make it nullable to show hint initially
+  String? _currentValue; 
 
   @override
   void initState() {

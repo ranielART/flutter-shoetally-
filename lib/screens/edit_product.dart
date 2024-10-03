@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart'; // Import file_picker
 import 'package:dotted_border/dotted_border.dart'; // Import dotted_border
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+class EditProduct extends StatefulWidget {
+  const EditProduct({super.key});
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _EditProductState extends State<EditProduct> {
   TextEditingController productNameTextField = TextEditingController();
   TextEditingController sellingPriceTextField = TextEditingController();
   TextEditingController totalPurchaseTextField = TextEditingController();
@@ -141,7 +141,7 @@ class _AddProductState extends State<AddProduct> {
                           onPressed: () {
                             // add product function
                           },
-                          text: 'Add Product',
+                          text: 'Edit Product',
                         ),
                       ),
                     ),

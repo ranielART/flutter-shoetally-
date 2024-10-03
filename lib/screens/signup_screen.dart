@@ -1,5 +1,5 @@
-import 'package:commerce_mobile/compontents/inputfields.dart';
-import 'package:commerce_mobile/compontents/passwordfields.dart';
+import 'package:commerce_mobile/components/inputfields.dart';
+import 'package:commerce_mobile/components/passwordfields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -87,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       child: Text(
-                        'LOGIN',
+                        'Sign Up',
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           letterSpacing: -0.2,

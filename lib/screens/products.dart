@@ -1,10 +1,12 @@
-import 'package:commerce_mobile/compontents/app_drawer.dart';
-import 'package:commerce_mobile/compontents/appbar.dart';
-import 'package:commerce_mobile/compontents/back_button_component.dart';
-import 'package:commerce_mobile/compontents/buttonIcon.dart';
-import 'package:commerce_mobile/compontents/navbar.dart';
+import 'package:commerce_mobile/components/app_drawer.dart';
+import 'package:commerce_mobile/components/appbar.dart';
+import 'package:commerce_mobile/components/back_button_component.dart';
+import 'package:commerce_mobile/components/buttonIcon.dart';
+import 'package:commerce_mobile/components/navbar.dart';
+import 'package:commerce_mobile/components/search_component.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class Products extends StatefulWidget {
   @override
@@ -81,22 +83,8 @@ class _ProductsState extends State<Products> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              onChanged: (value) => _filterTransactions(value),
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey.shade200,
-              ),
-            ),
-          ),
+          SearchBarComponent(
+              onChanged: _filterTransactions), // Use SearchBarComponent
           Expanded(
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -155,7 +143,7 @@ class _ProductsState extends State<Products> {
         ],
       ),
       bottomNavigationBar: const CustomBottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: 1,
       ),
     );
   }

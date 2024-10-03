@@ -1,5 +1,5 @@
-import 'package:commerce_mobile/compontents/inputfields.dart';
-import 'package:commerce_mobile/compontents/passwordfields.dart';
+import 'package:commerce_mobile/components/inputfields.dart';
+import 'package:commerce_mobile/components/passwordfields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Password',
                           style: GoogleFonts.inter(
                             fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w300,
                             color: const Color(0xFF766789),
                           ),
                         ),

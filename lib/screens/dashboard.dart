@@ -1,7 +1,7 @@
-import 'package:commerce_mobile/compontents/app_drawer.dart';
-import 'package:commerce_mobile/compontents/appbar.dart';
-import 'package:commerce_mobile/compontents/navbar.dart';
-import 'package:commerce_mobile/compontents/transaction_item.dart';
+import 'package:commerce_mobile/components/app_drawer.dart';
+import 'package:commerce_mobile/components/appbar.dart';
+import 'package:commerce_mobile/components/navbar.dart';
+import 'package:commerce_mobile/components/transaction_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

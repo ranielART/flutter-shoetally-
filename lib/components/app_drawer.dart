@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.people),
             title: const Text('Customer List'),
             onTap: () {
-              // customer list tap
+              Navigator.pushNamed(context, '/customer-list');
             },
           ),
         ],
