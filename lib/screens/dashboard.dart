@@ -1,7 +1,7 @@
-import 'package:commerce_mobile/compontents/app_drawer.dart';
-import 'package:commerce_mobile/compontents/infocard.dart';
-import 'package:commerce_mobile/compontents/transaction_item.dart';
-import 'package:commerce_mobile/compontents/app_drawer.dart';
+import 'package:commerce_mobile/components/app_drawer.dart';
+import 'package:commerce_mobile/components/appbar.dart';
+import 'package:commerce_mobile/components/navbar.dart';
+import 'package:commerce_mobile/components/transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,7 +41,6 @@ class _DashboardState extends State<Dashboard> {
     },
   ];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -50,26 +49,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Assign the key to the Scaffold
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFA259FF),
-        foregroundColor: Colors.white,
-        title: Text(
-          "Dashboard",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            letterSpacing: -0.5,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _scaffoldKey.currentState
-                ?.openDrawer(); // Open the drawer using the GlobalKey
-          },
-        ),
-      ),
+      appBar:
+          const CustomAppBar(title: "Dashboard"), // No scaffoldKey here anymore
       drawer: const AppDrawer(),
 
       body: Padding(
@@ -81,9 +62,9 @@ class _DashboardState extends State<Dashboard> {
             Center(
               child: Column(
                 children: [
-                  InfoCard(title: "Total Products", value: "189893"),
+                  _infoCard("Total Products", "189893"),
                   const SizedBox(height: 9),
-                  InfoCard(title: "Number of Customers", value: "25"),
+                  _infoCard("Number of Customers", "25"),
                 ],
               ),
             ),
@@ -118,7 +99,9 @@ class _DashboardState extends State<Dashboard> {
             // View All Transactions Button
             Center(
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/transaction_history');
+                },
                 child: Text(
                   "View All Transactions",
                   style: GoogleFonts.inter(
@@ -143,6 +126,50 @@ class _DashboardState extends State<Dashboard> {
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoCard(String title, String value) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
+      decoration: BoxDecoration(
+        color: const Color(0xFFA259FF), // Purple background color
+        borderRadius: BorderRadius.circular(7.0), // Rounded corners
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const SizedBox(height: 10),
+              Text(
+                value,
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
