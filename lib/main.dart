@@ -1,7 +1,7 @@
-
 import 'package:commerce_mobile/Wrapper.dart';
 import 'package:commerce_mobile/firebase_options.dart';
 import 'package:commerce_mobile/models/AuthUser.dart';
+import 'package:commerce_mobile/screens/addCustomer.dart';
 import 'package:commerce_mobile/screens/dashboard.dart';
 import 'package:commerce_mobile/screens/login_screen.dart';
 import 'package:commerce_mobile/screens/signup_screen.dart';
@@ -12,14 +12,12 @@ import 'package:commerce_mobile/screens/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(
     StreamProvider<AuthUser?>.value(
       value: AuthenticationService().user,
@@ -32,7 +30,8 @@ void main() async{
             '/signup': (context) => const SignupScreen(),
             '/dashboard': (context) => Dashboard(),
             '/transaction_history': (context) => TransactionHistory(),
-        }),
+            '/add_customer': (context) => AddCustomer(),
+          }),
     ),
   );
 }

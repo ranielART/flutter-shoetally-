@@ -1,5 +1,5 @@
-
 import 'package:commerce_mobile/compontents/app_drawer.dart';
+import 'package:commerce_mobile/compontents/infocard.dart';
 import 'package:commerce_mobile/compontents/transaction_item.dart';
 import 'package:commerce_mobile/compontents/app_drawer.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,6 @@ class _DashboardState extends State<Dashboard> {
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-
       'title': 'Kyle Dellatan',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
@@ -41,7 +40,6 @@ class _DashboardState extends State<Dashboard> {
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
   ];
-
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -67,7 +65,6 @@ class _DashboardState extends State<Dashboard> {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-
             _scaffoldKey.currentState
                 ?.openDrawer(); // Open the drawer using the GlobalKey
           },
@@ -77,7 +74,6 @@ class _DashboardState extends State<Dashboard> {
 
       body: Padding(
         padding: const EdgeInsets.fromLTRB(35, 35, 35, 5),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -85,9 +81,9 @@ class _DashboardState extends State<Dashboard> {
             Center(
               child: Column(
                 children: [
-                  _infoCard("Total Products", "189893"),
-                  const SizedBox(height: 16),
-                  _infoCard("Number of Customers", "25"),
+                  InfoCard(title: "Total Products", value: "189893"),
+                  const SizedBox(height: 9),
+                  InfoCard(title: "Number of Customers", value: "25"),
                 ],
               ),
             ),
@@ -111,7 +107,6 @@ class _DashboardState extends State<Dashboard> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: _transactions.length > 3 ? 3 : _transactions.length,
                 itemBuilder: (context, index) {
-
                   return TransactionItemComponent.transactionItem(
                     _transactions[index]['title']!,
                     _transactions[index]['price']!,
@@ -148,50 +143,6 @@ class _DashboardState extends State<Dashboard> {
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
-      ),
-    );
-  }
-
-  Widget _infoCard(String title, String value) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: const Color(0xFFA259FF), // Purple background color
-        borderRadius: BorderRadius.circular(7.0), // Rounded corners
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const SizedBox(height: 10),
-              Text(
-                value,
-                style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -258,5 +209,4 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
-
 }
