@@ -54,7 +54,8 @@ class _AddCustomerState extends State<AddCustomer> {
                     controllerTextField: customerPhoneTextField),
                 const SizedBox(height: 25),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 90.0), //mag dictate unsa ka dako ang button
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 90.0), //mag dictate unsa ka dako ang button
                   child: Center(
                     child: CustomButton(
                       onPressed: () {

@@ -5,6 +5,7 @@ import 'package:commerce_mobile/components/search_field_component.dart';
 import 'package:commerce_mobile/components/transaction_item.dart'; // Import the new transaction item component
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class TransactionHistory extends StatefulWidget {
   @override
   _TransactionHistoryState createState() => _TransactionHistoryState();
@@ -19,20 +20,17 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     },
     {
       'title': 'Kyle Dellatan',
-
-      'price': '₱ 25,000.00',
-
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
       'title': 'Century Tuna Ila Bernard',
       'price': '₱ 25,000.00',
-
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
   ];
@@ -44,7 +42,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   void initState() {
     super.initState();
     _filteredTransactions = _transactions;
-
   }
 
   void _filterTransactions(String searchText) {
@@ -52,7 +49,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
       _searchText = searchText;
       if (_searchText.isEmpty) {
         _filteredTransactions = _transactions;
-
       } else {
         _filteredTransactions = _transactions
             .where((transaction) => transaction['title']!
@@ -62,7 +58,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +90,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                         ),
                       ],
                     ),
-
                     child: TransactionItemComponent.transactionItem(
                       transaction['title']!,
                       transaction['price']!,
