@@ -10,6 +10,7 @@ import 'package:commerce_mobile/screens/dashboard.dart';
 import 'package:commerce_mobile/screens/edit_product.dart';
 import 'package:commerce_mobile/screens/edit_profile_page.dart';
 import 'package:commerce_mobile/screens/login_screen.dart';
+import 'package:commerce_mobile/screens/orders.dart';
 import 'package:commerce_mobile/screens/products.dart';
 import 'package:commerce_mobile/screens/profile.dart';
 import 'package:commerce_mobile/screens/signup_screen.dart';
@@ -46,6 +47,7 @@ void main() async {
             '/add-customer': (context) => AddCustomer(),
             '/customer-list': (context) => CustomerList(),
             '/edit-profile': (context) => EditProfilePage(),
+            '/orders': (context) => OrderScreen(),
           }),
     ),
   );
