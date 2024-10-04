@@ -7,7 +7,6 @@ import 'package:commerce_mobile/components/search_component.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class Products extends StatefulWidget {
   @override
   _ProductsState createState() => _ProductsState();
