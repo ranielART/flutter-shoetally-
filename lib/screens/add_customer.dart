@@ -1,4 +1,6 @@
 import 'package:commerce_mobile/components/custom_button.dart';
+import 'package:commerce_mobile/controllers/customerController.dart';
+import 'package:commerce_mobile/models/CustomersModel.dart';
 import 'package:flutter/material.dart';
 import 'package:commerce_mobile/components/app_drawer.dart';
 import 'package:commerce_mobile/components/appbar.dart';
@@ -58,8 +60,24 @@ class _AddCustomerState extends State<AddCustomer> {
                       horizontal: 90.0), //mag dictate unsa ka dako ang button
                   child: Center(
                     child: CustomButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // add product function
+
+                        Customers customer = Customers(
+                            name: customerNameTextField.text,
+                            phone_number: customerPhoneTextField.text,
+                            address: customerAddressTextField.text,
+                            id: '');
+
+                        await CustomerController()
+                            .addCustomer(customer)
+                            .then((value) {
+                          Navigator.pushNamed(context, '/customer-list');
+                        });
+
+                        customerNameTextField.clear();
+                        customerPhoneTextField.clear();
+                        customerAddressTextField.clear();
                       },
                       text: 'Add Customer',
                     ),
