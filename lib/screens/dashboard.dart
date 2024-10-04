@@ -1,8 +1,8 @@
+
 import 'package:commerce_mobile/components/app_drawer.dart';
 import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/navbar.dart';
 import 'package:commerce_mobile/components/transaction_item.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,30 +14,32 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final List<Map<String, String>> _transactionsSample = [
+
+  final List<Map<String, String>> _transactions = [
     {
       'title': 'Century Tuna Ila Bernard',
-      'price': '25,000.00',
+      'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
+    },
+    {
+
       'title': 'Kyle Dellatan',
-      'price': '25,000.00',
+      'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'title': 'Mark Anderson',
-      'price': '25,000.00',
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'title': 'Kyle Dellatan',
-      'price': '25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Kyle Dellatan',
-      'price': '25,000.00',
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
   ];
@@ -50,12 +52,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar:
           const CustomAppBar(title: "Dashboard"), // No scaffoldKey here anymore
       drawer: const AppDrawer(),
 
       body: Padding(
         padding: const EdgeInsets.fromLTRB(35, 35, 35, 5),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,6 +91,7 @@ class _DashboardState extends State<Dashboard> {
             Expanded(
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
+
                 itemCount: _transactionsSample.length > 3
                     ? 3
                     : _transactionsSample.length,
@@ -102,9 +107,11 @@ class _DashboardState extends State<Dashboard> {
             // View All Transactions Button
             Center(
               child: TextButton(
+
                 onPressed: () {
                   Navigator.pushNamed(context, '/transaction_history');
                 },
+
                 child: Text(
                   "View All Transactions",
                   style: GoogleFonts.inter(
@@ -119,6 +126,7 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       // Bottom Navigation Bar
+
       bottomNavigationBar: const CustomBottomNavigationBar(
         currentIndex: 0,
       ),
@@ -200,4 +208,36 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+
+  Widget _transactionItem(String title, String price, String dateTime) {
+    return Column(
+      children: [
+        ListTile(
+          title: Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 98, 54, 155),
+            ),
+          ),
+          subtitle: Text(dateTime, style: GoogleFonts.inter(fontSize: 11)),
+          trailing: Text(
+            "$price / Unit",
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 98, 54, 155),
+            ),
+          ),
+        ),
+        Divider(
+          color: Colors.grey.shade300,
+          thickness: 1,
+        ),
+      ],
+    );
+  }
+
+
 }
