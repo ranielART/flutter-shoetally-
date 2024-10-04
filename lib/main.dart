@@ -1,6 +1,7 @@
 import 'package:commerce_mobile/Wrapper.dart';
 import 'package:commerce_mobile/firebase_options.dart';
 import 'package:commerce_mobile/models/AuthUser.dart';
+import 'package:commerce_mobile/screens/addCustomer.dart';
 import 'package:commerce_mobile/screens/dashboard.dart';
 import 'package:commerce_mobile/screens/add_customer.dart';
 import 'package:commerce_mobile/screens/add_product.dart';
@@ -24,7 +25,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(
     StreamProvider<AuthUser?>.value(
       value: AuthenticationService().user,

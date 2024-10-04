@@ -1,4 +1,3 @@
-
 import 'package:commerce_mobile/components/app_drawer.dart';
 import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/navbar.dart';
@@ -14,7 +13,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   final List<Map<String, String>> _transactions = [
     {
       'title': 'Century Tuna Ila Bernard',
@@ -27,7 +25,6 @@ class _DashboardState extends State<Dashboard> {
       'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-
       'title': 'Kyle Dellatan',
       'price': '₱ 25,000.00',
       'dateTime': 'September 29, 2024, 5:00 PM'
@@ -52,14 +49,12 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar:
           const CustomAppBar(title: "Dashboard"), // No scaffoldKey here anymore
       drawer: const AppDrawer(),
 
       body: Padding(
         padding: const EdgeInsets.fromLTRB(35, 35, 35, 5),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,7 +63,7 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 children: [
                   _infoCard("Total Products", "189893"),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 9),
                   _infoCard("Number of Customers", "25"),
                 ],
               ),
@@ -91,15 +86,12 @@ class _DashboardState extends State<Dashboard> {
             Expanded(
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-
-                itemCount: _transactionsSample.length > 3
-                    ? 3
-                    : _transactionsSample.length,
+                itemCount: _transactions.length > 3 ? 3 : _transactions.length,
                 itemBuilder: (context, index) {
                   return TransactionItemComponent.transactionItem(
-                    _transactionsSample[index]['title']!,
-                    _transactionsSample[index]['price']!,
-                    _transactionsSample[index]['dateTime']!,
+                    _transactions[index]['title']!,
+                    _transactions[index]['price']!,
+                    _transactions[index]['dateTime']!,
                   );
                 },
               ),
@@ -107,11 +99,9 @@ class _DashboardState extends State<Dashboard> {
             // View All Transactions Button
             Center(
               child: TextButton(
-
                 onPressed: () {
                   Navigator.pushNamed(context, '/transaction_history');
                 },
-
                 child: Text(
                   "View All Transactions",
                   style: GoogleFonts.inter(
@@ -126,9 +116,17 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       // Bottom Navigation Bar
-
-      bottomNavigationBar: const CustomBottomNavigationBar(
-        currentIndex: 0,
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: const Color(0xFFA259FF),
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+        ],
       ),
     );
   }
@@ -238,6 +236,4 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
-
-
 }

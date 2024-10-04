@@ -1,6 +1,5 @@
-
-import 'package:commerce_mobile/compontents/inputfields.dart';
-import 'package:commerce_mobile/compontents/passwordfields.dart';
+import 'package:commerce_mobile/components/inputfields.dart';
+import 'package:commerce_mobile/components/passwordfields.dart';
 import 'package:commerce_mobile/services/authentication/auth_functions.dart';
 import 'package:commerce_mobile/services/authentication/authentication.dart';
 
@@ -81,12 +80,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       onPressed: () async {
                         // Handle login logic here
                         String email = emailTextField.text;
-                    String password = passwordTextField.text;
-                    String name = nameTextField.text;
+                        String password = passwordTextField.text;
+                        String name = nameTextField.text;
 
-                    await AuthFunctions()
-                        .register(context, email, password, name);
-                  },
+                        await AuthFunctions()
+                            .register(context, email, password, name);
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: const Color(0xFFA259FF),
@@ -97,7 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       child: Text(
-                        'Sign Up',
+                        'SIGNUP',
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           letterSpacing: -0.2,
