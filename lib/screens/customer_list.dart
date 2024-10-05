@@ -8,6 +8,7 @@ import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/back_button_component.dart';
 import 'package:commerce_mobile/components/buttonIcon.dart';
 import 'package:commerce_mobile/components/navbar.dart';
+import 'package:toastification/toastification.dart';
 import 'edit_customer.dart'; // Import the EditCustomer page
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore import
 
@@ -30,6 +31,79 @@ class _CustomerListState extends State<CustomerList> {
   void initState() {
     super.initState();
     _fetchCustomers();
+  }
+
+  Future<void> showConfirmationDeleteDialog(
+      BuildContext context, Customers customer) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+          false, // Prevents closing the dialog by tapping outside
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Customize border radius
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Confirmation',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                Text(
+                    'Are you sure you want to remove ${customer.name} as your customer?'),
+                SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    SizedBox(width: 8),
+                    TextButton(
+                      child: Text('Remove'),
+                      onPressed: () async {
+                        await _customerController
+                            .deleteCustomer(customer)
+                            .then((value) {
+                          toastification.show(
+                            context:
+                                context, // optional if you use ToastificationWrapper
+                            title: Text(
+                              'Customer Removed Sucessfully!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green[900]),
+                            ),
+                            description:
+                                Text('You successfully removed a customer.'),
+                            borderRadius: BorderRadius.circular(10),
+                            icon: Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.green[900],
+                            ),
+                            type: ToastificationType.success,
+                            style: ToastificationStyle.flatColored,
+                            autoCloseDuration: const Duration(seconds: 5),
+                          );
+                          Navigator.pushNamed(context, '/customer-list');
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   // Fetch customers using the CustomerController
@@ -107,10 +181,12 @@ class _CustomerListState extends State<CustomerList> {
                               ));
                         },
                         onDelete: () {
-                          setState(() {
-                            _fetchedCustomers.remove(
-                                filteredCustomers[index]); // Remove customer
-                          });
+                          showConfirmationDeleteDialog(
+                              context, filteredCustomers[index]);
+                          // setState(() {
+                          //   _fetchedCustomers.remove(
+                          //       filteredCustomers[index]); // Remove customer
+                          // });
                         },
                       );
                     },

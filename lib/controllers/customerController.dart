@@ -29,4 +29,11 @@ class CustomerController {
 
     await docCustomer.update(customer.toJson());
   }
+
+  Future<void> deleteCustomer(Customers customer) async {
+    await FirebaseFirestore.instance
+        .collection('customers')
+        .doc(customer.id)
+        .delete();
+  }
 }
