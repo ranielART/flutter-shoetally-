@@ -40,7 +40,6 @@ void main() async {
             '/dashboard': (context) => Dashboard(),
             '/transaction_history': (context) => TransactionHistory(),
             '/products': (context) => Products(),
-            '/add-product': (context) => AddProduct(),
             '/profile': (context) => UserProfilePage(),
             '/add-product': (context) => AddProduct(),
             '/edit-product': (context) => EditProduct(),
