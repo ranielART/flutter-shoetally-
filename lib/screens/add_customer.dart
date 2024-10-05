@@ -72,6 +72,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.green[900]),
                             ),
+                            description:
+                                Text('You successfully added a customer.'),
                             borderRadius: BorderRadius.circular(10),
                             icon: Icon(
                               Icons.check_circle_outline,
@@ -81,14 +83,13 @@ class _AddCustomerState extends State<AddCustomer> {
                             style: ToastificationStyle.flatColored,
                             autoCloseDuration: const Duration(seconds: 5),
                           );
-                          Navigator.pushNamed(context, '/customer-list');
+                          Navigator.of(context).pop();
                         });
 
                         customerNameTextField.clear();
                         customerPhoneTextField.clear();
                         customerAddressTextField.clear();
-
-                        Navigator.of(context).pop(); // Closes the dialog
+                        Navigator.pushNamed(context, '/customer-list');
                       },
                     ),
                   ],
