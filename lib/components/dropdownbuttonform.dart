@@ -25,7 +25,8 @@ class _DropdownFieldState extends State<DropdownField> {
   @override
   void initState() {
     super.initState();
-    _currentValue = null; // Initially set to null to show the hint
+    _currentValue =
+        widget.selectedValue; // Initially set to null to show the hint
   }
 
   @override
@@ -38,7 +39,7 @@ class _DropdownFieldState extends State<DropdownField> {
           style: GoogleFonts.inter(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: Colors.black45,
+            color: const Color(0xFF766789),
           ),
         ),
         DropdownButtonFormField<String>(
