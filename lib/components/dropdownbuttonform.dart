@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/components/encapsulation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -5,7 +6,7 @@ class DropdownField extends StatefulWidget {
   final String label;
   final String hintText;
   final List<String> items;
-  final String selectedValue;
+  final Encapsulation selectedValue;
 
   const DropdownField({
     super.key,
@@ -21,6 +22,7 @@ class DropdownField extends StatefulWidget {
 
 class _DropdownFieldState extends State<DropdownField> {
   String? _currentValue; 
+  
 
   @override
   void initState() {
@@ -43,10 +45,11 @@ class _DropdownFieldState extends State<DropdownField> {
         ),
         DropdownButtonFormField<String>(
           value: _currentValue, // Current value is null initially
-          hint: Text( // Display hint text when no item is selected
+          hint: Text(
+            // Display hint text when no item is selected
             widget.hintText,
             style: const TextStyle(
-              color: Color(0xFF766789),
+              color: Colors.black45,
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -64,13 +67,14 @@ class _DropdownFieldState extends State<DropdownField> {
           onChanged: (String? newValue) {
             setState(() {
               _currentValue = newValue;
+              widget.selectedValue.text = newValue;
             });
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(7.0),
               borderSide: const BorderSide(
-                color: Color.fromARGB(255, 223, 223, 223),
+                color: Colors.black45,
               ),
             ),
             focusedBorder: OutlineInputBorder(
