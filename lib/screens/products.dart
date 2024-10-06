@@ -3,9 +3,7 @@ import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/back_button_component.dart';
 import 'package:commerce_mobile/components/buttonIcon.dart';
 import 'package:commerce_mobile/components/navbar.dart';
-import 'package:commerce_mobile/components/productcard.dart';
 import 'package:commerce_mobile/components/search_component.dart';
-import 'package:commerce_mobile/models/ProductsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,40 +15,19 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   final List<Map<String, String>> _transactions = [
     {
-      'productName': 'Century Tuna Ila Bernard',
-      'sellingPrice': '₱ 4,000.00',
-      'purchasePrice': '₱ 3,000.00',
-      'quantity': '30',
-      'category': 'Shoes',
-      'dateTime': 'September 29, 2024, 5:00 PM',
-      'image': 'exampleImage'
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'productName': 'Nike Shoe',
-      'sellingPrice': '₱ 4,000.00',
-      'purchasePrice': '₱ 3,000.00',
-      'quantity': '30',
-      'category': 'Shoes',
-      'dateTime': 'September 29, 2024, 5:00 PM',
-      'image': 'exampleImage'
+      'title': 'Kyle Dellatan',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
     },
     {
-      'productName': 'Addidas Shoe',
-      'sellingPrice': '₱ 4,000.00',
-      'purchasePrice': '₱ 3,000.00',
-      'quantity': '30',
-      'category': 'Shoes',
-      'dateTime': 'September 29, 2024, 5:00 PM',
-      'image': 'exampleImage'
-    },
-    {
-      'productName': 'Example Shoe',
-      'sellingPrice': '₱ 4,000.00',
-      'purchasePrice': '₱ 3,000.00',
-      'quantity': '30',
-      'category': 'Shoes',
-      'dateTime': 'September 29, 2024, 5:00 PM',
-      'image': 'exampleImage'
+      'title': 'Century Tuna Ila Bernard',
+      'price': '₱ 25,000.00',
+      'dateTime': 'September 29, 2024, 5:00 PM'
     },
     // More transactions...
   ];
@@ -73,7 +50,7 @@ class _ProductsState extends State<Products> {
             _transactions; // Reset to full list if search is empty
       } else {
         _filteredTransactions = _transactions
-            .where((transaction) => transaction['productName']!
+            .where((transaction) => transaction['title']!
                 .toLowerCase()
                 .contains(_searchText.toLowerCase()))
             .toList();
@@ -83,9 +60,6 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: const CustomAppBar(title: "Products"),
       drawer: const AppDrawer(),
@@ -131,9 +105,31 @@ class _ProductsState extends State<Products> {
                     ),
                     child: Column(
                       children: [
-                        ProductCard(
-                          filteredTransactions: _filteredTransactions,
-                          index: index,
+                        ListTile(
+                          title: Text(
+                            _filteredTransactions[index]['title']!,
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 98, 54, 155),
+                            ),
+                          ),
+                          subtitle: Text(
+                            _filteredTransactions[index]['dateTime']!,
+                            style: GoogleFonts.inter(fontSize: 11),
+                          ),
+                          trailing: Text(
+                            "${_filteredTransactions[index]['price']} / Unit",
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 98, 54, 155),
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.grey.shade300,
+                          thickness: 1,
                         ),
                       ],
                     ),

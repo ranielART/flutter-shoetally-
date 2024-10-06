@@ -43,8 +43,6 @@ class _EditProductState extends State<EditProduct> {
   TextEditingController categoryTextField = TextEditingController();
   Encapsulation encap = Encapsulation();
 
-  final String _selectedCategory = 'shoes';
-
   // Add file variable to store selected file
   String? _selectedFile;
 
