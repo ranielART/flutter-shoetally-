@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'dart:io';
+
 import 'package:commerce_mobile/components/app_drawer.dart';
 import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/back_button_component.dart';
@@ -7,13 +9,21 @@ import 'package:commerce_mobile/components/custom_button.dart';
 import 'package:commerce_mobile/components/dropdownbuttonform.dart';
 import 'package:commerce_mobile/components/encapsulation.dart';
 import 'package:commerce_mobile/components/encapsulation.dart';
+import 'package:commerce_mobile/components/encapsulation.dart';
 import 'package:commerce_mobile/components/inputfields.dart';
+import 'package:commerce_mobile/controllers/Product_Controllers.dart';
+import 'package:commerce_mobile/models/ProductsModel.dart';
+import 'package:commerce_mobile/services/storage_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:commerce_mobile/controllers/Product_Controllers.dart';
 import 'package:commerce_mobile/models/ProductsModel.dart';
 import 'package:commerce_mobile/services/storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart'; // Import file_picker
+import 'package:dotted_border/dotted_border.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart'; // Import dotted_border
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart'; // Import dotted_border
@@ -33,14 +43,21 @@ class _EditProductState extends State<EditProduct> {
   void initState() {
     productNameTextField.text =
         '${widget.filteredTransactions[widget.index].name}';
+    '${widget.filteredTransactions[widget.index].name}';
     sellingPriceTextField.text =
         '${widget.filteredTransactions[widget.index].selling_price}';
+    '${widget.filteredTransactions[widget.index].selling_price}';
     totalPurchaseTextField.text =
         '${widget.filteredTransactions[widget.index].total_purchase}';
+    '${widget.filteredTransactions[widget.index].total_purchase}';
     quantityTextField.text =
         '${widget.filteredTransactions[widget.index].product_stock}';
+    '${widget.filteredTransactions[widget.index].product_stock}';
     categoryTextField.text =
         '${widget.filteredTransactions[widget.index].category}';
+    preImage = widget.filteredTransactions[widget.index].image;
+    stringid = widget.filteredTransactions[widget.index].id;
+    '${widget.filteredTransactions[widget.index].category}';
     preImage = widget.filteredTransactions[widget.index].image;
     stringid = widget.filteredTransactions[widget.index].id;
 
@@ -134,30 +151,28 @@ class _EditProductState extends State<EditProduct> {
                               height: 150,
                               width: double.infinity,
                               alignment: Alignment.center,
-                              child: preImage != ''
-                                  ? Image.network(preImage)
-                                  : _selectedFile == null
-                                      ? const Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.cloud_upload_outlined,
-                                                size: 30, color: Colors.grey),
-                                            Text(
-                                              "Choose a file or drag & drop it here",
-                                              style: TextStyle(
-                                                color: Color(0xFF766789),
-                                              ),
-                                            ),
-                                            Text(
-                                                "JPEG, PNG, PDG, MP4 formats, up to 50MB",
-                                                style: TextStyle(
-                                                    color: Colors.grey)),
-                                          ],
-                                        )
-                                      : kIsWeb
-                                          ? Image.network(_image!.path)
-                                          : Image.file(File(_image!.path))),
+                              child: _image == null
+                                  ? const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.cloud_upload_outlined,
+                                            size: 30, color: Colors.grey),
+                                        Text(
+                                          "Choose a file or drag & drop it here",
+                                          style: TextStyle(
+                                            color: Color(0xFF766789),
+                                          ),
+                                        ),
+                                        Text(
+                                            "JPEG, PNG, PDG, MP4 formats, up to 50MB",
+                                            style:
+                                                TextStyle(color: Colors.grey)),
+                                      ],
+                                    )
+                                  : kIsWeb
+                                      ? Image.network(_image!.path)
+                                      : Image.file(File(_image!.path))),
                         ),
                       ),
                       const SizedBox(height: 30),
@@ -165,18 +180,27 @@ class _EditProductState extends State<EditProduct> {
                         padding: const EdgeInsets.symmetric(horizontal: 60.0),
                         child: Center(
                           child: CustomButton(
-                            onPressed: () async => await ProductControllers()
-                                .updateProduct(Product(
-                                    id: stringid,
-                                    name: productNameTextField.text,
-                                    selling_price: double.parse(
-                                        sellingPriceTextField.text),
-                                    total_purchase: double.parse(
-                                        totalPurchaseTextField.text),
-                                    product_stock:
-                                        int.parse(quantityTextField.text),
-                                    category: categoryTextField.text ?? 'shoes',
-                                    image: preImage)),
+                            onPressed: () async {
+                              String finalImage;
+                              if (_image != null) {
+                                finalImage =
+                                    await storageService.updloadImage(_image);
+                                storageService.deleteImage(preImage);
+                              } else {
+                                finalImage = preImage;
+                              }
+                              await ProductControllers().updateProduct(Product(
+                                  id: stringid,
+                                  name: productNameTextField.text,
+                                  selling_price:
+                                      double.parse(sellingPriceTextField.text),
+                                  total_purchase:
+                                      double.parse(totalPurchaseTextField.text),
+                                  product_stock:
+                                      int.parse(quantityTextField.text),
+                                  category: categoryTextField.text ?? 'shoes',
+                                  image: finalImage));
+                            },
                             text: 'Edit Product',
                           ),
                         ),
