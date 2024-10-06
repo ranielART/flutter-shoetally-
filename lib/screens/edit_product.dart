@@ -26,7 +26,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart'; // Import dotted_border
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart'; // Import dotted_border
+import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart'; // Import dotted_border
 
 class EditProduct extends StatefulWidget {
   const EditProduct(
@@ -61,6 +62,13 @@ class _EditProductState extends State<EditProduct> {
     super.initState();
   }
 
+  bool productNameError = false;
+  bool sellingError = false;
+  bool purchaseError = false;
+  bool quantityError = false;
+  bool categoryError = false;
+  bool encapError = false;
+
   XFile? _image;
   String preImage = '';
   String stringid = '';
@@ -75,6 +83,123 @@ class _EditProductState extends State<EditProduct> {
   String? _selectedFile;
 
   // Function to handle file picking
+
+  void _validateAndSubmit(finalImage) {
+    setState(() {
+      productNameError = productNameTextField.text.isEmpty;
+      sellingError = sellingPriceTextField.text.isEmpty;
+      purchaseError = totalPurchaseTextField.text.isEmpty;
+      quantityError = quantityTextField.text.isEmpty;
+    });
+
+    if (!productNameError &&
+        !sellingError &&
+        !purchaseError &&
+        !quantityError &&
+        !encapError) {
+      showConfirmationDialog(context, finalImage);
+    } else {
+      toastification.show(
+        context: context,
+        title: Text(
+          'Validation Error',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+        ),
+        description: Text('Please fill out all fields.'),
+        borderRadius: BorderRadius.circular(10),
+        icon: Icon(Icons.error_outline, color: Colors.red),
+        type: ToastificationType.error,
+        style: ToastificationStyle.flatColored,
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+  }
+
+  Future<void> showConfirmationDialog(BuildContext context, finalImage) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Confirmation',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                Text('Are you sure you want to add this product?'),
+                SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    SizedBox(width: 8),
+                    TextButton(
+                      child: Text('Update'),
+                      onPressed: () async {
+                        await ProductControllers()
+                            .updateProduct(Product(
+                                id: stringid,
+                                name: productNameTextField.text,
+                                selling_price:
+                                    double.parse(sellingPriceTextField.text),
+                                total_purchase:
+                                    double.parse(totalPurchaseTextField.text),
+                                product_stock:
+                                    int.parse(quantityTextField.text),
+                                category: categoryTextField.text ?? 'shoes',
+                                image: finalImage))
+                            .then((value) {
+                          toastification.show(
+                            context: context,
+                            title: Text(
+                              'Product Updated Successfully!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green[900]),
+                            ),
+                            description:
+                                Text('You successfully updated a product.'),
+                            borderRadius: BorderRadius.circular(10),
+                            icon: Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.green[900],
+                            ),
+                            type: ToastificationType.success,
+                            style: ToastificationStyle.flatColored,
+                            autoCloseDuration: const Duration(seconds: 5),
+                          );
+                          Navigator.of(context).pop();
+                        });
+
+                        productNameTextField.clear();
+                        sellingPriceTextField.clear();
+                        totalPurchaseTextField.clear();
+                        quantityTextField.clear();
+
+                        Navigator.pushNamed(context, '/products');
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,24 +227,35 @@ class _EditProductState extends State<EditProduct> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InputFields(
-                          label: 'Name',
-                          hintText: 'Name of the product',
-                          controllerTextField: productNameTextField),
+                        label: 'Name',
+                        hintText: 'Name of the product',
+                        controllerTextField: productNameTextField,
+                        borderColor:
+                            productNameError ? Colors.red : Colors.black26,
+                      ),
                       const SizedBox(height: 15),
                       InputFields(
-                          label: 'Selling Price',
-                          hintText: "Enter the product's price",
-                          controllerTextField: sellingPriceTextField),
+                        label: 'Selling Price',
+                        hintText: "Enter the product's price",
+                        controllerTextField: sellingPriceTextField,
+                        borderColor: sellingError ? Colors.red : Colors.black26,
+                      ),
                       const SizedBox(height: 15),
                       InputFields(
-                          label: 'Total Purchase',
-                          hintText: 'Enter the purchasing price',
-                          controllerTextField: totalPurchaseTextField),
+                        label: 'Total Purchase',
+                        hintText: 'Enter the purchasing price',
+                        controllerTextField: totalPurchaseTextField,
+                        borderColor:
+                            purchaseError ? Colors.red : Colors.black26,
+                      ),
                       const SizedBox(height: 15),
                       InputFields(
-                          label: 'Quantity',
-                          hintText: 'Enter the quantity',
-                          controllerTextField: quantityTextField),
+                        label: 'Quantity',
+                        hintText: 'Enter the quantity',
+                        controllerTextField: quantityTextField,
+                        borderColor:
+                            quantityError ? Colors.red : Colors.black26,
+                      ),
                       const SizedBox(height: 15),
                       DropdownField(
                         label: 'Category',
@@ -186,17 +322,7 @@ class _EditProductState extends State<EditProduct> {
                               } else {
                                 finalImage = preImage;
                               }
-                              await ProductControllers().updateProduct(Product(
-                                  id: stringid,
-                                  name: productNameTextField.text,
-                                  selling_price:
-                                      double.parse(sellingPriceTextField.text),
-                                  total_purchase:
-                                      double.parse(totalPurchaseTextField.text),
-                                  product_stock:
-                                      int.parse(quantityTextField.text),
-                                  category: categoryTextField.text ?? 'shoes',
-                                  image: finalImage));
+                              _validateAndSubmit(finalImage);
                             },
                             text: 'Edit Product',
                           ),
