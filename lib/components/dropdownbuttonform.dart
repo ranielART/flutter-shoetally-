@@ -8,7 +8,6 @@ class DropdownField extends StatefulWidget {
   final String hintText;
   final List<String> items;
   final Encapsulation selectedValue;
-  final Encapsulation selectedValue;
 
   const DropdownField({
     super.key,
@@ -25,6 +24,7 @@ class DropdownField extends StatefulWidget {
 class _DropdownFieldState extends State<DropdownField> {
   String? _currentValue; 
 
+  
   
 
   @override
