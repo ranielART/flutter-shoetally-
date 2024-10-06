@@ -92,11 +92,6 @@ class _AddProductState extends State<AddProduct> {
                       selectedValue: _selectedCategory,
                     ),
                     const SizedBox(height: 15),
-                    InputFields(
-                        label: 'Description',
-                        hintText: 'Enter the product description',
-                        controllerTextField: descriptionTextField),
-                    const SizedBox(height: 35),
                     GestureDetector(
                       onTap: _pickFile, // file picker on tap
                       child: DottedBorder(

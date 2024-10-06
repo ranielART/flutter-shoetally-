@@ -41,7 +41,6 @@ void main() async {
             '/products': (context) => Products(),
             '/profile': (context) => UserProfilePage(),
             '/add-product': (context) => AddProduct(),
-            '/edit-product': (context) => EditProduct(),
             '/add-customer': (context) => AddCustomer(),
             '/customer-list': (context) => CustomerList(),
             '/edit-profile': (context) => EditProfilePage(),
