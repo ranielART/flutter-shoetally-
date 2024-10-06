@@ -8,7 +8,6 @@ class DropdownField extends StatefulWidget {
   final String hintText;
   final List<String> items;
   final Encapsulation selectedValue;
-  final Encapsulation selectedValue;
 
   const DropdownField({
     super.key,
@@ -23,15 +22,13 @@ class DropdownField extends StatefulWidget {
 }
 
 class _DropdownFieldState extends State<DropdownField> {
-  String? _currentValue; 
-  
-  String? _currentValue; 
-  
+  String? _currentValue;
 
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.selectedValue.text; // Initially set to null to show the hint
+    _currentValue =
+        widget.selectedValue.text; // Initially set to null to show the hint
   }
 
   @override

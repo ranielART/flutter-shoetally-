@@ -3,6 +3,7 @@ import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/back_button_component.dart';
 import 'package:commerce_mobile/components/buttonIcon.dart';
 import 'package:commerce_mobile/components/navbar.dart';
+import 'package:commerce_mobile/components/productcard.dart';
 import 'package:commerce_mobile/components/search_component.dart';
 import 'package:commerce_mobile/controllers/Product_Controllers.dart';
 import 'package:commerce_mobile/models/ProductsModel.dart';
@@ -97,31 +98,9 @@ class _ProductsState extends State<Products> {
                     ),
                     child: Column(
                       children: [
-                        ListTile(
-                          title: Text(
-                            _filteredTransactions[index]['title']!,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 98, 54, 155),
-                            ),
-                          ),
-                          subtitle: Text(
-                            _filteredTransactions[index]['dateTime']!,
-                            style: GoogleFonts.inter(fontSize: 11),
-                          ),
-                          trailing: Text(
-                            "${_filteredTransactions[index]['price']} / Unit",
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 98, 54, 155),
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey.shade300,
-                          thickness: 1,
+                        ProductCard(
+                          filteredTransactions: _filteredTransactions,
+                          index: index,
                         ),
                       ],
                     ),

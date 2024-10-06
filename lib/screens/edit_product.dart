@@ -48,7 +48,7 @@ class _EditProductState extends State<EditProduct> {
   }
 
   XFile? _image;
-  String preImage ='';
+  String preImage = '';
   String stringid = '';
 
   TextEditingController productNameTextField = TextEditingController();
@@ -57,141 +57,138 @@ class _EditProductState extends State<EditProduct> {
   TextEditingController quantityTextField = TextEditingController();
   Encapsulation categoryTextField = Encapsulation();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 25c753b3f752fa1fbc273b4896639617f71a9f16
   // Add file variable to store selected file
   String? _selectedFile;
 
   // Function to handle file picking
-  
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<StorageService>(
-      builder: (context, storageService, widget) {
-        return Scaffold(
-          appBar: const CustomAppBar(title: "Edit Product"),
-          drawer: const AppDrawer(),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        BackButtonComponent(),
-                      ],
-                    ),
+    return Consumer<StorageService>(builder: (context, storageService, widget) {
+      return Scaffold(
+        appBar: const CustomAppBar(title: "Edit Product"),
+        drawer: const AppDrawer(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      BackButtonComponent(),
+                    ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InputFields(
-                            label: 'Name',
-                            hintText: 'Name of the product',
-                            controllerTextField: productNameTextField),
-                        const SizedBox(height: 15),
-                        InputFields(
-                            label: 'Selling Price',
-                            hintText: "Enter the product's price",
-                            controllerTextField: sellingPriceTextField),
-                        const SizedBox(height: 15),
-                        InputFields(
-                            label: 'Total Purchase',
-                            hintText: 'Enter the purchasing price',
-                            controllerTextField: totalPurchaseTextField),
-                        const SizedBox(height: 15),
-                        InputFields(
-                            label: 'Quantity',
-                            hintText: 'Enter the quantity',
-                            controllerTextField: quantityTextField),
-                        const SizedBox(height: 15),
-                        DropdownField(
-                          label: 'Category',
-                          hintText: 'Select a category',
-                          items: const ['shoes', 'slippers', 'food', 'vehicles'],
-                          selectedValue: categoryTextField,
-                        ),
-                        const SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () async {
-                                final imageSeleted = await storageService.selectImage();
-                                  if (imageSeleted != null) {
-                                    setState(() {
-                                      _image = imageSeleted;
-                                    });
-                                  }
-                              }, // file picker on tap
-                          child: DottedBorder(
-                            color: const Color(0xFF766789),
-                            strokeWidth: 2,
-                            dashPattern: const [10, 10], // spacing
-                            borderType: BorderType.RRect,
-                            radius: const Radius.circular(12),
-                            child: Container(
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InputFields(
+                          label: 'Name',
+                          hintText: 'Name of the product',
+                          controllerTextField: productNameTextField),
+                      const SizedBox(height: 15),
+                      InputFields(
+                          label: 'Selling Price',
+                          hintText: "Enter the product's price",
+                          controllerTextField: sellingPriceTextField),
+                      const SizedBox(height: 15),
+                      InputFields(
+                          label: 'Total Purchase',
+                          hintText: 'Enter the purchasing price',
+                          controllerTextField: totalPurchaseTextField),
+                      const SizedBox(height: 15),
+                      InputFields(
+                          label: 'Quantity',
+                          hintText: 'Enter the quantity',
+                          controllerTextField: quantityTextField),
+                      const SizedBox(height: 15),
+                      DropdownField(
+                        label: 'Category',
+                        hintText: 'Select a category',
+                        items: const ['shoes', 'slippers', 'food', 'vehicles'],
+                        selectedValue: categoryTextField,
+                      ),
+                      const SizedBox(height: 15),
+                      GestureDetector(
+                        onTap: () async {
+                          final imageSeleted =
+                              await storageService.selectImage();
+                          if (imageSeleted != null) {
+                            setState(() {
+                              _image = imageSeleted;
+                            });
+                          }
+                        }, // file picker on tap
+                        child: DottedBorder(
+                          color: const Color(0xFF766789),
+                          strokeWidth: 2,
+                          dashPattern: const [10, 10], // spacing
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(12),
+                          child: Container(
                               height: 150,
                               width: double.infinity,
                               alignment: Alignment.center,
-                              child: preImage != ''? Image.network(preImage)
-                                  :_selectedFile == null
-                                  ? const Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.cloud_upload_outlined,
-                                            size: 30, color: Colors.grey),
-                                        Text(
-                                          "Choose a file or drag & drop it here",
-                                          style: TextStyle(
-                                            color: Color(0xFF766789),
-                                          ),
-                                        ),
-                                        Text(
-                                            "JPEG, PNG, PDG, MP4 formats, up to 50MB",
-                                            style: TextStyle(color: Colors.grey)),
-                                      ],
-                                    )
-                                  : kIsWeb
-                                    ?Image.network(_image!.path)
-                                    :Image.file(File(_image!.path))
-                            ),
+                              child: preImage != ''
+                                  ? Image.network(preImage)
+                                  : _selectedFile == null
+                                      ? const Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.cloud_upload_outlined,
+                                                size: 30, color: Colors.grey),
+                                            Text(
+                                              "Choose a file or drag & drop it here",
+                                              style: TextStyle(
+                                                color: Color(0xFF766789),
+                                              ),
+                                            ),
+                                            Text(
+                                                "JPEG, PNG, PDG, MP4 formats, up to 50MB",
+                                                style: TextStyle(
+                                                    color: Colors.grey)),
+                                          ],
+                                        )
+                                      : kIsWeb
+                                          ? Image.network(_image!.path)
+                                          : Image.file(File(_image!.path))),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                        child: Center(
+                          child: CustomButton(
+                            onPressed: () async => await ProductControllers()
+                                .updateProduct(Product(
+                                    id: stringid,
+                                    name: productNameTextField.text,
+                                    selling_price: double.parse(
+                                        sellingPriceTextField.text),
+                                    total_purchase: double.parse(
+                                        totalPurchaseTextField.text),
+                                    product_stock:
+                                        int.parse(quantityTextField.text),
+                                    category: categoryTextField.text ?? 'shoes',
+                                    image: preImage)),
+                            text: 'Edit Product',
                           ),
                         ),
-                        const SizedBox(height: 30),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                          child: Center(
-                            child: CustomButton(
-                              onPressed: () async => await ProductControllers().updateProduct(
-                                Product(id: stringid, 
-                                name: productNameTextField.text, 
-                                selling_price: double.parse(sellingPriceTextField.text), 
-                                total_purchase: double.parse(totalPurchaseTextField.text), 
-                                product_stock: int.parse(quantityTextField.text), 
-                                category: categoryTextField.text??'shoes', 
-                                image: preImage)
-                                      ),
-                              text: 'Edit Product',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }
