@@ -43,21 +43,18 @@ class _EditProductState extends State<EditProduct> {
   void initState() {
     productNameTextField.text =
         '${widget.filteredTransactions[widget.index].name}';
-    '${widget.filteredTransactions[widget.index].name}';
+
     sellingPriceTextField.text =
         '${widget.filteredTransactions[widget.index].selling_price}';
-    '${widget.filteredTransactions[widget.index].selling_price}';
+
     totalPurchaseTextField.text =
         '${widget.filteredTransactions[widget.index].total_purchase}';
-    '${widget.filteredTransactions[widget.index].total_purchase}';
+
     quantityTextField.text =
         '${widget.filteredTransactions[widget.index].product_stock}';
-    '${widget.filteredTransactions[widget.index].product_stock}';
+
     categoryTextField.text =
         '${widget.filteredTransactions[widget.index].category}';
-    preImage = widget.filteredTransactions[widget.index].image;
-    stringid = widget.filteredTransactions[widget.index].id;
-    '${widget.filteredTransactions[widget.index].category}';
     preImage = widget.filteredTransactions[widget.index].image;
     stringid = widget.filteredTransactions[widget.index].id;
 

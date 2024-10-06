@@ -9,13 +9,15 @@ class DropdownField extends StatefulWidget {
   final List<String> items;
   final Encapsulation selectedValue;
 
-  const DropdownField({
-    super.key,
-    required this.label,
-    required this.hintText,
-    required this.items,
-    required this.selectedValue,
-  });
+  final Color borderColor;
+
+  const DropdownField(
+      {super.key,
+      required this.label,
+      required this.hintText,
+      required this.items,
+      required this.selectedValue,
+      this.borderColor = Colors.black45});
 
   @override
   State<DropdownField> createState() => _DropdownFieldState();
@@ -75,8 +77,8 @@ class _DropdownFieldState extends State<DropdownField> {
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(7.0),
-              borderSide: const BorderSide(
-                color: Colors.black45,
+              borderSide: BorderSide(
+                color: widget.borderColor,
               ),
             ),
             focusedBorder: OutlineInputBorder(

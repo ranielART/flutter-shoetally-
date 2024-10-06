@@ -18,31 +18,32 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   List<Product> _filteredTransactions = [];
+  List<Product> _allProducts = []; // Full list of products for filtering
   String _searchText = "";
 
   @override
   void initState() {
     super.initState();
-    populateProduct();
-    print(_filteredTransactions);
+    populateProduct(); // Fetch products when the widget is initialized
   }
 
   void populateProduct() async {
-    final prodcutsList = await ProductControllers().getProducts();
+    final productList = await ProductControllers().getProducts();
     setState(() {
-      _filteredTransactions = prodcutsList;
+      _allProducts = productList; // Store the full list of products
+      _filteredTransactions = _allProducts; // Show all products initially
     });
   }
 
-  void _filterTransactions(String searchText) async {
-    final productList = await ProductControllers().getProducts();
+  void _filterTransactions(String searchText) {
     setState(() {
       _searchText = searchText;
       if (_searchText.isEmpty) {
         _filteredTransactions =
-            productList; // Reset to full list if search is empty
+            _allProducts; // Reset to full list if search is empty
       } else {
-        _filteredTransactions = productList
+        // Perform filtering
+        _filteredTransactions = _allProducts
             .where((product) =>
                 product.name!.toLowerCase().contains(_searchText.toLowerCase()))
             .toList();
