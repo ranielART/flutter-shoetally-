@@ -19,12 +19,13 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   List<Product> _filteredTransactions = [];
   List<Product> _allProducts = []; // Full list of products for filtering
+  List<Product> _productList = [];
   String _searchText = "";
 
   @override
   void initState() {
     super.initState();
-    populateProduct(); // Fetch products when the widget is initialized
+    populateProduct();
   }
 
   void populateProduct() async {

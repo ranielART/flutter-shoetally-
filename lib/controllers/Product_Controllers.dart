@@ -32,7 +32,9 @@ class ProductControllers {
   }
 
   //delete product
-  Future<void> deleteProduct() async {}
+  Future<void> deleteProduct() async {
+
+  }
 
   //update product
   Future<void> updateProduct(Product prod) async {
