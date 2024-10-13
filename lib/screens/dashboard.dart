@@ -20,19 +20,24 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   List<Product> products = [];
   List<Customers> customers = [];
   List<Transactions> _transactions = [];
+  bool isLoading = true; // Loading state
 
-  populateFromDatabase()async{
+  populateFromDatabase() async {
     final prods = await ProductControllers().getProducts();
     final clients = await CustomerController().getAllCustomers();
     final trans = await TransactionContorller().getTransactions();
+
+    // Sort transactions by date in descending order
+    trans.sort((a, b) => b.date_time.compareTo(a.date_time));
+
     setState(() {
       products = prods;
       customers = clients;
       _transactions = trans;
+      isLoading = false; // Set loading to false when data is fetched
     });
   }
 
@@ -45,8 +50,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          const CustomAppBar(title: "Dashboard"), // No scaffoldKey here anymore
+      appBar: const CustomAppBar(title: "Dashboard"),
       drawer: const AppDrawer(),
 
       body: Padding(
@@ -61,7 +65,8 @@ class _DashboardState extends State<Dashboard> {
                   InfoCard(
                     title: 'Total Products',
                     value: products.fold({"totalstock": 0}, (premap, map) {
-                      premap["totalstock"] = premap["totalstock"]! + map.product_stock;
+                      premap["totalstock"] =
+                          premap["totalstock"]! + map.product_stock;
                       return premap;
                     })["totalstock"].toString(),
                   ),
@@ -87,20 +92,30 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             const SizedBox(height: 8),
-            // Transactions List
+            // Transactions List or Loading Indicator
             Expanded(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _transactions.length > 3 ? 3 : _transactions.length,
-                itemBuilder: (context, index) {
-                  return TransactionItemComponent.transactionItem(context,
-                    _transactions[index].customer_name,
-                    _transactions[index].total_amount.toStringAsFixed(2),
-                    _transactions[index].date_time,
-                    _transactions[index]
-                  );
-                },
-              ),
+              child: isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: const Color(
+                            0xFFA259FF), // Customize color if needed
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          _transactions.length > 3 ? 3 : _transactions.length,
+                      itemBuilder: (context, index) {
+                        return TransactionItemComponent.transactionItem(
+                            context,
+                            _transactions[index].customer_name,
+                            _transactions[index]
+                                .total_amount
+                                .toStringAsFixed(2),
+                            _transactions[index].date_time,
+                            _transactions[index]);
+                      },
+                    ),
             ),
             // View All Transactions Button
             Center(
@@ -233,5 +248,4 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
-
 }
