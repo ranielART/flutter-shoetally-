@@ -61,6 +61,12 @@ class _OrderListPageState extends State<OrderListPage> {
         .fold(0, (sum, item) => sum + item['price'] * item['quantity']);
   }
 
+  double _getTotalProfit() {
+    return _orders.fold(0.0, (sum, item) {
+      return sum + (item['profit'] * item['quantity']);
+    });
+  }
+
   double _getTax() {
     return _getSubtotal() * 0.12; // 12% tax
   }
@@ -99,8 +105,7 @@ class _OrderListPageState extends State<OrderListPage> {
     setState(() {
       customerError = productName.text?.isEmpty ?? true;
     });
-    print(productName);
-    print(customerError);
+
     if (!customerError) {
       showConfirmationDialog(context);
     } else {
@@ -157,6 +162,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           id: '',
                           customer_name: productName.text ?? '',
                           total_amount: _getTotal(),
+                          total_profit: _getTotalProfit(),
                           date_time: DateTime.now().toString(),
                           user_name: userprofile?.name ?? '',
                         );
@@ -213,6 +219,7 @@ class _OrderListPageState extends State<OrderListPage> {
                   'productName': product.name,
                   'productId': product.id,
                   'price': product.selling_price,
+                  'profit': product.profit, // Include profit here
                   'quantity': 1,
                   'stock': product.product_stock
                 })
@@ -282,19 +289,13 @@ class _OrderListPageState extends State<OrderListPage> {
           ),
         ),
         const SizedBox(height: 16),
-
-        // Updated DropdownField with border color based on selection status
         DropdownField(
           label: 'Customer',
           hintText: 'customer name',
           items: customerList.map((x) => x.name).toList(),
           selectedValue: productName,
-
-          borderColor: customerError
-              ? Colors.red
-              : Colors.black26, // Change border color
+          borderColor: customerError ? Colors.red : Colors.black26,
         ),
-
         const SizedBox(height: 16),
         _buildSummaryRow(
             'Subtotal', 'PHP ${_getSubtotal().toStringAsFixed(2)}'),
@@ -302,18 +303,21 @@ class _OrderListPageState extends State<OrderListPage> {
             'Estimated Tax', 'PHP ${_getTax().toStringAsFixed(2)}'),
         _buildSummaryRow('Estimated Shipping & Handling',
             'PHP ${_getShipping().toStringAsFixed(2)}'),
-        const SizedBox(height: 16),
+
+        _buildSummaryRow('Total Profit',
+            'PHP ${_getTotalProfit().toStringAsFixed(2)}'), // Display total profit here
+
         _buildSummaryRow('Total', 'PHP ${_getTotal().toStringAsFixed(2)}',
             isBold: true),
         const SizedBox(height: 16),
         CustomButton(
           onPressed: _orders.isEmpty
-              ? () {} // No-op function when there are no orders or customer not selected
+              ? () {}
               : () {
                   _validateAndSubmit();
                 },
           text: 'Checkout',
-          isEnabled: _orders.isNotEmpty, // Button enabled state
+          isEnabled: _orders.isNotEmpty,
         ),
       ],
     );

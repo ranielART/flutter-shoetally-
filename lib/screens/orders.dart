@@ -19,18 +19,18 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   List<Product> products = [];
-  
+
   List<Product> _filteredOrders = [];
   List<Product> chosenProducts = [];
   String _searchText = '';
-  
 
   @override
   void initState() {
     super.initState();
     populateProduct();
   }
-  void populateProduct() async{
+
+  void populateProduct() async {
     final data = await ProductControllers().getProducts();
     // List<Product> data  = ProductSeeder().productListSeed();
     setState(() {
@@ -46,13 +46,12 @@ class _OrderScreenState extends State<OrderScreen> {
         _filteredOrders = products;
       } else {
         _filteredOrders = products
-            .where((product) => product.name
-                .toLowerCase()
-                .contains(_searchText.toLowerCase()))
+            .where((product) =>
+                product.name.toLowerCase().contains(_searchText.toLowerCase()))
             .toList();
       }
     });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +70,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 IconButtonComponent(
                   buttonText: 'Order List',
                   onPressed: () {
-                    Navigator.pushNamed(context, '/order-list', arguments: chosenProducts);
+                    Navigator.pushNamed(context, '/order-list',
+                        arguments: chosenProducts);
                   },
                 ),
               ],
             ),
           ),
-           SearchBarComponent(
-              onChanged: _filterOrders), // Add search bar
+          SearchBarComponent(onChanged: _filterOrders), // Add search bar
           Expanded(
             child: ListView.builder(
               itemCount: _filteredOrders.length,
@@ -87,13 +86,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 return OrderItemComponent(
                   imageUrl: product.image,
                   shoeName: product.name,
+                  profit: product.profit,
                   stockCount: product.product_stock.toString(),
                   onCartPressed: () {
                     setState(() {
                       if (!chosenProducts.contains(product)) {
                         chosenProducts.add(product);
                         print(chosenProducts.length);
-                      }else{
+                      } else {
                         //error thing "product already on cart"
                         print("product already on cart");
                       }

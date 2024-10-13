@@ -55,7 +55,7 @@ class _AddProductState extends State<AddProduct> {
       sellingError = sellingPriceTextField.text.isEmpty;
       purchaseError = totalPurchaseTextField.text.isEmpty;
       quantityError = quantityTextField.text.isEmpty;
-      encapError = (encap == null) ? false : true;
+      encapError = encap.text?.isEmpty ?? true;
     });
 
     if (!productNameError &&
@@ -116,12 +116,15 @@ class _AddProductState extends State<AddProduct> {
                       onPressed: () async {
                         await ProductControllers()
                             .postProduct(
-                                name: productNameTextField,
-                                selling_price: sellingPriceTextField,
-                                total_purchase: totalPurchaseTextField,
-                                product_stock: quantityTextField,
-                                category: encap,
-                                imagePick: _image)
+                          name: productNameTextField,
+                          selling_price: sellingPriceTextField,
+                          total_purchase: totalPurchaseTextField,
+                          product_stock: quantityTextField,
+                          category: encap,
+                          imagePick: _image,
+                          // profit: double.parse(sellingPriceTextField.text) -
+                          //     double.parse(totalPurchaseTextField.text),
+                        )
                             .then((value) {
                           toastification.show(
                             context: context,
