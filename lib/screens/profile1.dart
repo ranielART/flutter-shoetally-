@@ -24,7 +24,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Future<void> _loadUserData() async {
-
     //
     user = await AuthFunctions().getCurrentUser();
     if (user != null) {
@@ -35,7 +34,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
       }); // Trigger UI update
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +87,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         Navigator.pushNamed(context, '/edit-profile');
                       },
                     ),
+
                     ListTile(
                       leading: Icon(Icons.settings),
                       title: Text("Verify Email"),
@@ -101,17 +100,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         );
                       },
                     ),
+
                     ListTile(
                       leading: Icon(Icons.logout),
                       title: Text("Log Out"),
                       onTap: () async {
-                        
                         await AuthFunctions().signOut();
                         User? user = await AuthFunctions().getCurrentUser();
-                        
+
                         if (user == null) {
                           setState(() {
-                            
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               '/login',
                               (route) => false,
