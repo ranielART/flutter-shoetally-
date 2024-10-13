@@ -33,7 +33,6 @@ class _AppDrawerState extends State<AppDrawer> {
                 var userData = snapshot.data!.data() as Map<String, dynamic>;
                 String name = userData['name'] ?? 'No name';
                 String email = userData['email'] ?? 'No email';
-
                 // Return DrawerHeader directly instead of wrapping it in another ListView
                 return DrawerHeader(
                   decoration: const BoxDecoration(

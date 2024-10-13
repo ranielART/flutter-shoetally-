@@ -20,6 +20,7 @@ import 'package:commerce_mobile/services/authentication/auth_functions.dart';
 import 'package:commerce_mobile/services/authentication/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 class OrderListPage extends StatefulWidget {
   OrderListPage({Key? key}) : super(key: key);
@@ -34,6 +35,8 @@ class _OrderListPageState extends State<OrderListPage> {
   List<Map<String, dynamic>> _orders = [];
   List<Customers> customerList = [];
   Encapsulation productName = Encapsulation();
+
+  bool customerError = false;
 
   Future<void> _loadUserData() async {
     user = await AuthFunctions().getCurrentUser();
@@ -90,6 +93,104 @@ class _OrderListPageState extends State<OrderListPage> {
     setState(() {
       _orders.removeAt(index);
     });
+  }
+
+  void _validateAndSubmit() {
+    setState(() {
+      customerError = productName.text?.isEmpty ?? true;
+    });
+    print(productName);
+    print(customerError);
+    if (!customerError) {
+      showConfirmationDialog(context);
+    } else {
+      toastification.show(
+        context: context,
+        title: Text(
+          'Validation Error',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+        ),
+        description: Text('Please fill out all fields.'),
+        borderRadius: BorderRadius.circular(10),
+        icon: Icon(Icons.error_outline, color: Colors.red),
+        type: ToastificationType.error,
+        style: ToastificationStyle.flatColored,
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+  }
+
+  Future<void> showConfirmationDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Confirmation',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                Text('Are you sure you want to checkout?'),
+                SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    SizedBox(width: 8),
+                    TextButton(
+                      child: Text('Checkout'),
+                      onPressed: () async {
+                        Transactions trans = Transactions(
+                          id: '',
+                          customer_name: productName.text ?? '',
+                          total_amount: _getTotal(),
+                          date_time: DateTime.now().toString(),
+                          user_name: userprofile?.name ?? '',
+                        );
+                        List<Orders> finalOrders = _orders
+                            .map((prod) => Orders(
+                                  id: '',
+                                  product_name: prod['productName'],
+                                  productImage: prod['imageUrl'],
+                                  total_price: prod['price'],
+                                  quantity: prod['quantity'],
+                                ))
+                            .toList();
+
+                        // Add product function
+                        String id = await TransactionContorller()
+                            .addTransaction(trans, finalOrders);
+                        double finalVal = _getTotal();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Receipt(stringId: id, total_amount: finalVal),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -181,12 +282,19 @@ class _OrderListPageState extends State<OrderListPage> {
           ),
         ),
         const SizedBox(height: 16),
+
+        // Updated DropdownField with border color based on selection status
         DropdownField(
           label: 'Customer',
           hintText: 'customer name',
           items: customerList.map((x) => x.name).toList(),
           selectedValue: productName,
+
+          borderColor: customerError
+              ? Colors.red
+              : Colors.black26, // Change border color
         ),
+
         const SizedBox(height: 16),
         _buildSummaryRow(
             'Subtotal', 'PHP ${_getSubtotal().toStringAsFixed(2)}'),
@@ -200,36 +308,9 @@ class _OrderListPageState extends State<OrderListPage> {
         const SizedBox(height: 16),
         CustomButton(
           onPressed: _orders.isEmpty
-              ? () {} // No-op function when there are no orders
-              : () async {
-                  Transactions trans = Transactions(
-                    id: '',
-                    customer_name: productName.text ?? '',
-                    total_amount: _getTotal(),
-                    date_time: DateTime.now().toString(),
-                    user_name: userprofile?.name ?? '',
-                  );
-                  List<Orders> finalOrders = _orders
-                      .map((prod) => Orders(
-                            id: '',
-                            product_name: prod['productName'],
-                            productImage: prod['imageUrl'],
-                            total_price: prod['price'],
-                            quantity: prod['quantity'],
-                          ))
-                      .toList();
-
-                  // Add product function
-                  String id = await TransactionContorller()
-                      .addTransaction(trans, finalOrders);
-                  double finalVal = _getTotal();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          Receipt(stringId: id, total_amount: finalVal),
-                    ),
-                  );
+              ? () {} // No-op function when there are no orders or customer not selected
+              : () {
+                  _validateAndSubmit();
                 },
           text: 'Checkout',
           isEnabled: _orders.isNotEmpty, // Button enabled state
