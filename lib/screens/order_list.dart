@@ -125,6 +125,33 @@ class _OrderListPageState extends State<OrderListPage> {
     }
   }
 
+  Future<void> updateProductQuantities() async {
+    for (var order in _orders) {
+      String productId = order['productId'];
+      int quantitySold = order['quantity'];
+
+      DocumentReference productRef =
+          FirebaseFirestore.instance.collection('products').doc(productId);
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(productRef);
+
+        if (!snapshot.exists) {
+          throw Exception("Product does not exist!");
+        }
+
+        int currentStock = snapshot['product_stock'];
+        if (currentStock < quantitySold) {
+          throw Exception("Not enough stock!");
+        }
+
+        int newStock = currentStock - quantitySold;
+
+        transaction.update(productRef, {'product_stock': newStock});
+      });
+    }
+  }
+
   Future<void> showConfirmationDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -166,6 +193,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           date_time: DateTime.now().toString(),
                           user_name: userprofile?.name ?? '',
                         );
+
                         List<Orders> finalOrders = _orders
                             .map((prod) => Orders(
                                   id: '',
@@ -179,6 +207,10 @@ class _OrderListPageState extends State<OrderListPage> {
                         // Add product function
                         String id = await TransactionContorller()
                             .addTransaction(trans, finalOrders);
+
+                        // Update product quantities after successful transaction
+                        await updateProductQuantities();
+
                         double finalVal = _getTotal();
                         Navigator.push(
                           context,
