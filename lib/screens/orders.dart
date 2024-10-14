@@ -5,7 +5,11 @@ import 'package:commerce_mobile/components/buttonIcon.dart';
 import 'package:commerce_mobile/components/navbar.dart';
 import 'package:commerce_mobile/components/order_item.dart';
 import 'package:commerce_mobile/components/search_component.dart';
+import 'package:commerce_mobile/controllers/Product_Controllers.dart';
+import 'package:commerce_mobile/models/ProductsModel.dart';
+import 'package:commerce_mobile/seeders/product_seeder.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({Key? key}) : super(key: key);
@@ -15,47 +19,42 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  final List<Map<String, String>> orders = [
-    {
-      'imageUrl':
-          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg', // Example image from Flutter library
-      'shoeName': 'Air Jordans 1 High',
-      'stockCount': '50',
-    },
-    {
-      'imageUrl':
-          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg', // Another Flutter example image
-      'shoeName': 'Kob NIKE Precision',
-      'stockCount': '0',
-    },
-    {
-      'imageUrl':
-          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-3.jpg', // Flutter sample image for cards
-      'shoeName': 'Savoy Adidas',
-      'stockCount': '99',
-    },
-  ];
+  List<Product> products = [];
 
-  List<Map<String, String>> _filteredOrders = [];
-  String _searchText = "";
+  List<Product> _filteredOrders = [];
+  List<Product> chosenProducts = [];
+  String _searchText = '';
 
   @override
   void initState() {
     super.initState();
-    _filteredOrders = orders;
+    populateProduct();
+  }
+
+  void populateProduct() async {
+    final data = await ProductControllers().getProducts();
+    // Sort products based on stock count from highest to lowest
+    data.sort((a, b) => b.product_stock.compareTo(a.product_stock));
+    setState(() {
+      products = data;
+      _filteredOrders = products;
+    });
   }
 
   void _filterOrders(String searchText) {
     setState(() {
       _searchText = searchText;
       if (_searchText.isEmpty) {
-        _filteredOrders = orders;
+        // Sort the filtered products by stock count as well
+        _filteredOrders = products;
       } else {
-        _filteredOrders = orders
-            .where((transaction) => transaction['title']!
-                .toLowerCase()
-                .contains(_searchText.toLowerCase()))
+        _filteredOrders = products
+            .where((product) =>
+                product.name.toLowerCase().contains(_searchText.toLowerCase()))
             .toList();
+        // Sort filtered products by stock count
+        _filteredOrders
+            .sort((a, b) => b.product_stock.compareTo(a.product_stock));
       }
     });
   }
@@ -77,29 +76,55 @@ class _OrderScreenState extends State<OrderScreen> {
                 IconButtonComponent(
                   buttonText: 'Order List',
                   onPressed: () {
-                    Navigator.pushNamed(context, '/order-list');
+                    Navigator.pushNamed(context, '/order-list',
+                        arguments: chosenProducts);
                   },
                 ),
               ],
             ),
           ),
-           SearchBarComponent(
-              onChanged: _filterOrders), // Add search bar
+          SearchBarComponent(onChanged: _filterOrders), // Add search bar
           Expanded(
             child: ListView.builder(
-              itemCount: orders.length,
+              itemCount: _filteredOrders.length,
               itemBuilder: (context, index) {
-                final order = orders[index];
+                final product = _filteredOrders[index];
                 return OrderItemComponent(
-                  imageUrl: order['imageUrl']!,
-                  shoeName: order['shoeName']!,
-                  stockCount: order['stockCount']!,
+                  imageUrl: product.image,
+                  shoeName: product.name,
+                  profit: product.profit,
+                  stockCount: product.product_stock.toString(),
                   onCartPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Product added to cart'),
-                      ),
-                    );
+                    if (product.product_stock <= 0) {
+                      toastification.show(
+                        context: context,
+                        title: Text(
+                          'Insufficient Stocks',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.red),
+                        ),
+                        description: Text('${product.name} needs restocking.'),
+                        borderRadius: BorderRadius.circular(10),
+                        icon: Icon(Icons.error_outline, color: Colors.red),
+                        type: ToastificationType.error,
+                        style: ToastificationStyle.flatColored,
+                        autoCloseDuration: const Duration(seconds: 5),
+                      );
+                    } else {
+                      setState(() {
+                        if (!chosenProducts.contains(product)) {
+                          chosenProducts.add(product);
+                          print(chosenProducts.length);
+                        } else {
+                          print("product already on cart");
+                        }
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Product added to cart'),
+                        ),
+                      );
+                    }
                   },
                 );
               },

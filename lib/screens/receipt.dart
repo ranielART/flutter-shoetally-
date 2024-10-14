@@ -1,5 +1,6 @@
 import 'package:commerce_mobile/components/back_button_component.dart';
 import 'package:commerce_mobile/components/custom_button.dart';
+import 'package:commerce_mobile/models/TransactionsModel.dart';
 import 'package:commerce_mobile/screens/dashboard.dart';
 import 'package:commerce_mobile/screens/orders.dart';
 import 'package:flutter/foundation.dart';
@@ -7,14 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Receipt extends StatefulWidget {
-  const Receipt({super.key});
+  final stringId;
+  final total_amount;
+  final Transactions trans;
+  const Receipt(
+      {super.key, required this.stringId, required this.total_amount, required this.trans});
 
   @override
   State<Receipt> createState() => _ReceiptState();
 }
 
 class _ReceiptState extends State<Receipt> {
-  receiptTextDetail(leftText, rightText, fontS) => Padding(
+  receiptTextDetail(leftText, rightText, int fontS) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 19.0),
         child: Row(
           children: [
@@ -31,7 +36,7 @@ class _ReceiptState extends State<Receipt> {
               rightText,
               style: GoogleFonts.inter(
                 fontWeight: FontWeight.w600,
-                fontSize: fontS,
+                fontSize: fontS.toDouble(),
                 color: const Color.fromARGB(255, 18, 18, 18),
               ),
             ),
@@ -175,8 +180,6 @@ class _ReceiptState extends State<Receipt> {
                                   ),
                                 ),
                                 const SizedBox(height: 25),
-
-                                
                                 Container(
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 16.0),
@@ -187,11 +190,13 @@ class _ReceiptState extends State<Receipt> {
                                 ),
                                 const SizedBox(height: 25),
                                 receiptTextDetail(
-                                    'Reference Number', '000085752257', 15),
+                                    'Reference Number', widget.stringId, 15),
                                 const SizedBox(height: 15),
-                                receiptTextDetail('Date', 'Mar 22, 2023', 15),
+                                receiptTextDetail(
+                                    'Date', widget.trans.date_time.split(" ")[0], 15),
                                 const SizedBox(height: 15),
-                                receiptTextDetail('Time', '07:80 AM', 15),
+                                receiptTextDetail(
+                                    'Time', widget.trans.date_time.split(" ")[1], 15),
                                 const SizedBox(height: 15),
                                 receiptTextDetail(
                                     'Payment Method', 'Credit Card', 15),
@@ -205,7 +210,8 @@ class _ReceiptState extends State<Receipt> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                receiptTextDetail('Amount', 'PHP 1,000.00', 20),
+                                receiptTextDetail('Amount',
+                                    widget.total_amount.toString(), 20),
                                 const SizedBox(height: 20),
                                 Container(
                                   margin: const EdgeInsets.symmetric(
@@ -261,8 +267,6 @@ class _ReceiptState extends State<Receipt> {
                             ),
                           ),
                         ),
-
-
                       ],
                     ),
                     const SizedBox(height: 65),

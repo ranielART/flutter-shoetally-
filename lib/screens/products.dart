@@ -24,11 +24,15 @@ class _ProductsState extends State<Products> {
   @override
   void initState() {
     super.initState();
-    populateProduct(); // Fetch products when the widget is initialized
+    populateProduct();
   }
 
   void populateProduct() async {
     final productList = await ProductControllers().getProducts();
+
+    // Sort the products by stock in descending order
+    productList.sort((a, b) => b.product_stock.compareTo(a.product_stock));
+
     setState(() {
       _allProducts = productList; // Store the full list of products
       _filteredTransactions = _allProducts; // Show all products initially
@@ -53,7 +57,6 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    populateProduct();
     return Scaffold(
       appBar: const CustomAppBar(title: "Products"),
       drawer: const AppDrawer(),

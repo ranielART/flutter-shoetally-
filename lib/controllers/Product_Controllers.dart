@@ -15,16 +15,19 @@ class ProductControllers {
     required TextEditingController product_stock,
     required Encapsulation category,
     required XFile? imagePick,
+    // required double profit,
   }) async {
     String _finalImage = await StorageService().updloadImage(imagePick);
     Product prodPost = Product(
-        id: '',
-        name: name.text,
-        selling_price: double.parse(selling_price.text),
-        total_purchase: double.parse(total_purchase.text),
-        product_stock: int.parse(product_stock.text),
-        category: category.text ?? '',
-        image: _finalImage);
+      id: '',
+      name: name.text,
+      selling_price: double.parse(selling_price.text),
+      total_purchase: double.parse(total_purchase.text),
+      product_stock: int.parse(product_stock.text),
+      category: category.text ?? '',
+      image: _finalImage,
+      // profit: profit,
+    );
     DocumentReference docref = await ref.add(prodPost.toJson());
     await docref.update({
       'id': docref.id,
@@ -46,6 +49,13 @@ class ProductControllers {
         .map((doc) =>
             Product.fromFireStore(doc.data() as Map<String, dynamic>, doc.id))
         .toList();
+  }
+  Future<void> updateProductStock(String id, int newStock)async{
+    DocumentReference docref = await ref.doc(id);
+    docref.update({
+      'product_stock': newStock
+    });
+
   }
 }
 

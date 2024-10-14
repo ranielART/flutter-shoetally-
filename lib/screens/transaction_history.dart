@@ -2,9 +2,11 @@ import 'package:commerce_mobile/components/app_drawer.dart';
 import 'package:commerce_mobile/components/appbar.dart';
 import 'package:commerce_mobile/components/navbar.dart';
 import 'package:commerce_mobile/components/search_field_component.dart';
-import 'package:commerce_mobile/components/transaction_item.dart'; // Import the new transaction item component
+import 'package:commerce_mobile/components/transaction_item.dart';
+import 'package:commerce_mobile/controllers/Transaction_Contorller.dart';
+import 'package:commerce_mobile/models/TransactionsModel.dart';
+import 'package:commerce_mobile/seeders/transaction_seeder.dart';
 import 'package:flutter/material.dart';
-
 
 class TransactionHistory extends StatefulWidget {
   @override
@@ -12,46 +14,37 @@ class TransactionHistory extends StatefulWidget {
 }
 
 class _TransactionHistoryState extends State<TransactionHistory> {
-  final List<Map<String, String>> _transactions = [
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Kyle Dellatan',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-    {
-      'title': 'Century Tuna Ila Bernard',
-      'price': '₱ 25,000.00',
-      'dateTime': 'September 29, 2024, 5:00 PM'
-    },
-  ];
-
-  List<Map<String, String>> _filteredTransactions = [];
+  List<Transactions> transList = [];
+  List<Transactions> _filteredTransactions = [];
   String _searchText = "";
+
+  transPopulate() async {
+    final listthing = await TransactionContorller().getTransactions();
+    // final listthing = TransactionSeeder().transListSeed();
+    setState(() {
+      transList = listthing;
+
+      // Sort transactions by date in descending order
+      transList.sort((a, b) => b.date_time.compareTo(a.date_time));
+
+      _filteredTransactions = transList;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _filteredTransactions = _transactions;
+    transPopulate();
   }
 
   void _filterTransactions(String searchText) {
     setState(() {
       _searchText = searchText;
       if (_searchText.isEmpty) {
-        _filteredTransactions = _transactions;
+        _filteredTransactions = transList;
       } else {
-        _filteredTransactions = _transactions
-            .where((transaction) => transaction['title']!
+        _filteredTransactions = transList
+            .where((transaction) => transaction.customer_name
                 .toLowerCase()
                 .contains(_searchText.toLowerCase()))
             .toList();
@@ -91,9 +84,11 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                       ],
                     ),
                     child: TransactionItemComponent.transactionItem(
-                      transaction['title']!,
-                      transaction['price']!,
-                      transaction['dateTime']!,
+                      context,
+                      transaction.customer_name,
+                      transaction.total_amount.toStringAsFixed(2),
+                      transaction.date_time,
+                      transaction,
                     ),
                   ),
                 );
