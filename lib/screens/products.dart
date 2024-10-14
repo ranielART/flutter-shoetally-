@@ -103,8 +103,7 @@ class _ProductsState extends State<Products> {
                     child: Column(
                       children: [
                         ProductCard(
-                          filteredTransactions: _filteredTransactions,
-                          index: index,
+                          product: _filteredTransactions[index],
                         ),
                       ],
                     ),
